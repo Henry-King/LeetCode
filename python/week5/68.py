@@ -20,13 +20,7 @@ class Solution(object):
             line_word_num += len(word)
             line.append(word)
         if line:
-            space_num = maxWidth - line_word_num - len(line)
-            if space_num > 0:
-                line.append(" " * space_num)
-            temp_line = " ".join(line)
-            if len(temp_line) < maxWidth:
-                temp_line += " "
-            ret.append(temp_line)
+            ret.append(" ".join(line).ljust(maxWidth))
         return ret
 
     def __compute_space(self, maxWidth, line_word_num, word_num):
