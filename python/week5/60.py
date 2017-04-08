@@ -13,8 +13,7 @@ class Solution(object):
         place = k - 1
 
         for i in xrange(len(factorials) - 1, -1, -1):
-            factorial = factorials[i]
-            index, place = divmod(place, factorial)
+            index, place = divmod(place, factorials[i])
             ret.append(str(options[index]))
             del options[index]
 
