@@ -4,39 +4,22 @@ class Solution(object):
         :type num: int
         :rtype: str
         """
-        ret = ""
-        while num != 0:
-            result = self.int2RomanLetter(num)
-            num = result[0]
-            ret += result[1]
-        return ret
+        thousands = ['', 'M', 'MM', 'MMM']
+        hundrends = ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM']
+        tens = ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC']
+        ones = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX']
 
-    def int2RomanLetter(self, num):
-        if num >= 1000:
-            return num-1000, "M"
-        elif num >= 900:
-            return num-900, "CM"
-        elif num >= 500:
-            return num-500, "D"
-        elif num >= 400:
-            return num-400, "CD"
-        elif num >= 100:
-            return num-100, "C"
-        elif num >= 90:
-            return num-90, "XC"
-        elif num >= 50:
-            return num-50, "L"
-        elif num >= 40:
-            return num-40, "XL"
-        elif num >= 10:
-            return num-10, "X"
-        elif num >= 9:
-            return num-9, "IX"
-        elif num >= 5:
-            return num-5, "V"
-        elif num >= 4:
-            return num-4, "IV"
-        else:
-            return num-1, "I"
+        ret = ['' for i in xrange(4)]
+
+        ret[0] = thousands[num / 1000]
+        num %= 1000
+        ret[1] = hundrends[num / 100]
+        num %= 100
+        ret[2] = tens[num / 10]
+        num %= 10
+        ret[3] = ones[num]
+        return "".join(ret)
 
 
+s = Solution()
+print s.intToRoman(1954)
