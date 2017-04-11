@@ -4,17 +4,12 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        twice_index = 0
-        pre_value = pre_pre_value = None
-
-        for i, cur_value in enumerate(nums):
-            if cur_value != pre_value or cur_value != pre_pre_value:
-                pre_pre_value = pre_value
-                pre_value = cur_value
-                nums[twice_index], nums[i] = nums[i], nums[twice_index]
-                twice_index += 1
-
-        return twice_index
+        i = 0
+        for n in nums:
+            if i < 2 or n > nums[i - 2]:
+                nums[i] = n
+                i += 1
+        return i
 
 
 s = Solution()
