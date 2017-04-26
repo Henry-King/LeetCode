@@ -23,36 +23,30 @@ class Solution(object):
                 next_level = []
                 for j in xrange(start, i + 1):
                     root = TreeNode(j)
+                    left_branches = self.__fetch_from_catch(cache, start, j - 1, n)
+                    right_branches = self.__fetch_from_catch(cache, j + 1, end, n)
 
-                    if (start, j - 1) in cache:
-                        left_branches = cache[(start, j - 1)]
-                    else:
-                        left_branches = self.__helper(n, start, j - 1, cache)
-                        cache[(start, j - 1)] = left_branches
+                    left_branches = [[]] if left_branches == [] else left_branches
+                    right_branches = [[]] if right_branches == [] else right_branches
+                    products = [[x] + [y] for x in left_branches for y in right_branches]
 
-                    if (j + 1, end) in cache:
-                        right_branches = cache[(j + 1, end)]
-                    else:
-                        right_branches = self.__helper(n, j + 1, end, cache)
-                        cache[(j + 1, end)] = right_branches
-
-                    if left_branches and right_branches:
-                        products = [[x] + [y] for x in left_branches for y in right_branches]
-                    elif left_branches and not right_branches:
-                        products = [[x] + [None] for x in left_branches]
-                    elif not left_branches and right_branches:
-                        products = [[None] + [x] for x in right_branches]
-                    else:
-                        products = []
-
-                    for item in products:
-                        root.left = item[0]
-                        root.right = item[1]
-                        next_level.append(self.__copy_node(root))
+                    if left_branches != [[]] or right_branches != [[]]:
+                        for item in products:
+                            root.left = item[0]
+                            root.right = item[1]
+                            next_level.append(self.__copy_node(root))
 
                 ret = next_level
-
         return ret
+
+    def __fetch_from_catch(self, cache, start, end, n):
+        key = (start, end)
+        if key in cache:
+            branches = cache[key]
+        else:
+            branches = self.__helper(n, start, end, cache)
+            cache[key] = branches
+        return branches
 
     def __copy_node(self, root):
         ret = None
