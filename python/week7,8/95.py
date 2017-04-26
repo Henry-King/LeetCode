@@ -12,31 +12,28 @@ class Solution(object):
         :type n: int
         :rtype: List[TreeNode]
         """
-        return self.__helper(n, 1, n, {})
+        if n > 0:
+            return self.__helper(n, 1, n, {})
+        else:
+            return []
 
     def __helper(self, n, start, end, cache):
         ret = []
-        if end >= start:
+        if end == start:
             ret.append(TreeNode(start))
+        elif start > end:
+            ret.append(None)
+        else:
+            for j in xrange(start, end + 1):
+                left_branches = self.__fetch_from_catch(cache, start, j - 1, n)
+                right_branches = self.__fetch_from_catch(cache, j + 1, end, n)
+                products = [[x] + [y] for x in left_branches for y in right_branches]
 
-            for i in xrange(start + 1, end + 1):
-                next_level = []
-                for j in xrange(start, i + 1):
+                for item in products:
                     root = TreeNode(j)
-                    left_branches = self.__fetch_from_catch(cache, start, j - 1, n)
-                    right_branches = self.__fetch_from_catch(cache, j + 1, end, n)
-
-                    left_branches = [[]] if left_branches == [] else left_branches
-                    right_branches = [[]] if right_branches == [] else right_branches
-                    products = [[x] + [y] for x in left_branches for y in right_branches]
-
-                    if left_branches != [[]] or right_branches != [[]]:
-                        for item in products:
-                            root.left = item[0]
-                            root.right = item[1]
-                            next_level.append(self.__copy_node(root))
-
-                ret = next_level
+                    root.left = item[0]
+                    root.right = item[1]
+                    ret.append(root)
         return ret
 
     def __fetch_from_catch(self, cache, start, end, n):
@@ -48,15 +45,7 @@ class Solution(object):
             cache[key] = branches
         return branches
 
-    def __copy_node(self, root):
-        ret = None
-        if root:
-            ret = TreeNode(root.val)
-            ret.left = self.__copy_node(root.left)
-            ret.right = self.__copy_node(root.right)
-        return ret
-
 
 s = Solution()
-r = s.generateTrees(8)
+r = s.generateTrees(3)
 print len(r)
