@@ -13,10 +13,13 @@ class Solution(object):
         """
         cur_node = head
         nil = ListNode(None)
+        pre_node = None
         while cur_node:
             next_node = cur_node.next
 
-            pre_node = nil
+            # Reset pre_noe only when it is necessary
+            if pre_node is None or pre_node.val > cur_node.val:
+                pre_node = nil
             while pre_node.next and pre_node.next.val < cur_node.val:
                 pre_node = pre_node.next
 
