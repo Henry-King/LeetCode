@@ -13,12 +13,7 @@ class Solution(object):
         :rtype: bool
         """
         if root:
-            if root.left and root.right:
-                return self.__helper(root.left, root.right)
-            elif not root.left and not root.right:
-                return True
-            else:
-                return False
+            return self.__helper(root.left, root.right)
         else:
             return True
 
