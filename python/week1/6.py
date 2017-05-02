@@ -5,23 +5,25 @@ class Solution(object):
         :type numRows: int
         :rtype: str
         """
-        if len(s) == 0 or len(s) == 1 or numRows == 1:
-            return s
-        else:
-            ret = ""
-            columns = len(s) / (numRows*2-2)
-            if len(s) % (numRows*2-2) != 0:
-                columns += 1
+        rows = [[] for i in xrange(numRows)]
+        length = len(s)
+        i = 0
+        while i < length:
+            for j in xrange(numRows):
+                if i >= length:
+                    break
+                else:
+                    rows[j].append(s[i])
+                    i += 1
+            for j in xrange(numRows - 2, 0, -1):
+                if i >= length:
+                    break
+                else:
+                    rows[j].append(s[i])
+                    i += 1
+        ret = reduce(lambda a, b: a+b, rows)
+        return "".join(ret)
 
-            for i in range(numRows):
-                for j in range(columns):
-                    vertical = 2*j*(numRows-1)+i
-                    edge = (2*j+2)*(numRows-1)-i
-                    if vertical < len(s):
-                        ret += s[vertical]
-                    if edge < len(s) and i != 0 and i != numRows-1:
-                        ret += s[edge]
-            return ret
 
 s = Solution()
-print s.convert("ABC", 2)
+print s.convert("PAYPALISHIRING", 3)
