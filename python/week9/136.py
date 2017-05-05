@@ -1,4 +1,4 @@
-from collections import Counter
+import operator
 
 
 class Solution(object):
@@ -7,5 +7,4 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        counter = Counter(nums)
-        return counter.most_common().pop()[0]
+        return reduce(operator.xor, nums)
