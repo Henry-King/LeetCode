@@ -13,7 +13,7 @@ class Solution(object):
         :rtype: TreeNode
         """
         if root:
-            root.left, root.right = root.right, root.left
-            self.invertTree(root.left)
-            self.invertTree(root.right)
+            left, right = root.left, root.right
+            root.left = self.invertTree(right)
+            root.right = self.invertTree(left)
         return root
