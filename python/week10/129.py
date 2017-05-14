@@ -6,30 +6,19 @@ class TreeNode(object):
         self.right = None
 
 
-from collections import deque
-
-
 class Solution(object):
     def sumNumbers(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
-        sums = 0
+        return self.helper(root, 0)
+
+    def helper(self, root, sums):
         if root:
-            cur_level = deque()
-            cur_level.append(root)
-            while cur_level:
-                next_level = deque()
-                while cur_level:
-                    node = cur_level.popleft()
-                    if node.left:
-                        node.left.val += node.val * 10
-                        next_level.append(node.left)
-                    if node.right:
-                        node.right.val += node.val * 10
-                        next_level.append(node.right)
-                    if not node.left and not node.right:
-                        sums += node.val
-                cur_level = next_level
-        return sums
+            if not root.left and not root.right:
+                return sums * 10 + root.val
+            else:
+                return self.helper(root.left, sums * 10 + root.val) + self.helper(root.right, sums * 10 + root.val)
+        else:
+            return 0
