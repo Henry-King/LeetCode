@@ -15,6 +15,7 @@ class Solution(object):
                 elif num < dp[mid]:
                     hi = mid - 1
                 else:
+                    lo = mid
                     break
             dp[lo] = num
             if lo == size:
@@ -23,4 +24,4 @@ class Solution(object):
 
 
 s = Solution()
-print s.lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18])
+print s.lengthOfLIS([3, 5, 6, 2, 5, 4, 19, 5, 6, 7, 12])
