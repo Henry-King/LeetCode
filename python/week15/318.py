@@ -4,16 +4,14 @@ class Solution(object):
         :type words: List[str]
         :rtype: int
         """
-        word_set = []
+        res = {}
         for word in words:
-            word_set.append((len(word), set(word)))
+            mask = 0
+            for c in set(word):
+                mask |= (1 << (ord(c) - 97))
+            res[mask] = max(len(word), res.get(mask, 0))
 
-        maximum = 0
-        for i in xrange(len(word_set)):
-            for j in xrange(i + 1, len(word_set)):
-                if word_set[i][1].isdisjoint(word_set[j][1]):
-                    maximum = max(maximum, word_set[i][0] * word_set[j][0])
-        return maximum
+        return max([res[x] * res[y] for x in res for y in res if not x & y] or [0])
 
 
 s = Solution()
